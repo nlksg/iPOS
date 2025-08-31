@@ -1,4 +1,3 @@
 # pos
-Point Of Sale application - dev using iPhone only. 
-
-I am testing application development on mobile phone.
+Point Of Sale application
+Develop with Github Copilot and ChatGPT5
