@@ -1,0 +1,31 @@
+<div id="upload-modal" class="modal">
+  <div class="modal-content">
+  <h3>Upload Image</h3>
+    <form method="post" enctype="multipart/form-data" hx-post="{% url 'products:upload_media' %}" hx-target="#upload-modal" hx-swap="outerHTML" hx-trigger="submit">
+      {% csrf_token %}
+      <div>
+    {{ form.product.label_tag }} (optional)<br/>
+        {{ form.product }}
+      </div>
+      <div>
+        {{ form.variant.label_tag }}<br/>
+        {{ form.variant }}
+      </div>
+      <div>
+        {{ form.image.label_tag }}<br/>
+        {{ form.image }}
+      </div>
+      <div>
+        {{ form.alt_text.label_tag }}<br/>
+        {{ form.alt_text }}
+      </div>
+      <div>
+        {{ form.is_primary }} {{ form.is_primary.label_tag }}
+      </div>
+      <div class="row" style="margin-top:8px;gap:8px;">
+        <button type="submit">Upload</button>
+        <button type="button" onclick="this.closest('#upload-modal').remove();">Close</button>
+      </div>
+    </form>
+  </div>
+</div>

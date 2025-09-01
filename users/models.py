@@ -3,9 +3,13 @@ from django.db import models
 
 
 class User(AbstractUser):
-    """Custom user model for iPOS system"""
+    class Role(models.TextChoices):
+        ADMIN = "ADMIN", "Admin"
+        MANAGER = "MANAGER", "Manager"
+        CASHIER = "CASHIER", "Cashier"
+
     phone = models.CharField(max_length=20, blank=True)
-    position = models.CharField(max_length=100, blank=True)
-    
+    role = models.CharField(max_length=20, choices=Role.choices, default=Role.CASHIER)
+
     def __str__(self):
-        return self.username
+        return f"{self.username} ({self.get_role_display()})"

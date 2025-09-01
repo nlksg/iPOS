@@ -1,0 +1,43 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Media Manager</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 16px; }
+    .wrap { display: grid; grid-template-columns: 320px 1fr; gap: 24px; align-items: start; }
+    form { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+    .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px; background: #fff; }
+  .card.linked { border-color: #ef4444; }
+    .thumb { height: 140px; display: grid; place-items: center; overflow: hidden; background: #f8fafc; border-radius: 6px; }
+    .thumb img { max-height: 100%; max-width: 100%; }
+    .meta { font-size: 12px; color: #334155; margin-top: 8px; line-height: 1.3; }
+    .badge { display: inline-block; padding: 2px 6px; border-radius: 9999px; font-size: 11px; }
+    .ok { background: #e0f2fe; color: #075985; }
+    .warn { background: #fee2e2; color: #991b1b; }
+    .muted { color: #64748b; }
+    .row { display: flex; gap: 6px; align-items: center; }
+    h1 { margin: 0 0 16px; }
+    h2 { margin: 0 0 12px; font-size: 16px; }
+    label { font-size: 12px; color: #334155; }
+    input[type="submit"] { margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Media Manager</h1>
+  <div class="row" style="justify-content: space-between; align-items:center; margin-bottom: 12px;">
+    <div class="muted">Showing files under /media/ (newest first)</div>
+    <button hx-get="{% url 'products:upload_media' %}" hx-target="#modal-root" hx-swap="innerHTML">Upload</button>
+  </div>
+
+  <div id="media-grid" hx-get="{% url 'products:media_grid' %}" hx-trigger="load, media-updated from:body" hx-swap="outerHTML">
+    <!-- grid will load here -->
+  </div>
+
+  <!-- Modal host to ensure a single instance -->
+  <div id="modal-root"></div>
+</body>
+</html>

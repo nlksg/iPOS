@@ -1,0 +1,51 @@
+<div id="media-grid">
+{% if files %}
+<div class="grid">
+  {% for f in files %}
+  <div class="card {% if f.is_linked %}linked{% endif %}">
+    <div class="thumb">
+      <a href="{{ f.url }}" target="_blank" title="{{ f.rel }}">
+        <img src="{{ f.url }}" alt="" />
+      </a>
+    </div>
+    <div class="meta">
+      <div class="row" style="flex-wrap:wrap;gap:6px;">
+        {% if f.linked_products %}
+          {% with cnt=f.linked_products|length %}
+            <span class="badge warn">Products{% if cnt > 1 %} ({{ cnt }}){% endif %}:</span>
+          {% endwith %}
+          {% for p in f.linked_products %}
+            <a class="badge" href="{{ p.url }}">{{ p.name }}</a>
+          {% endfor %}
+        {% endif %}
+        {% if f.linked_variants %}
+          {% with cnt=f.linked_variants|length %}
+            <span class="badge warn">Variants{% if cnt > 1 %} ({{ cnt }}){% endif %}:</span>
+          {% endwith %}
+          {% for v in f.linked_variants %}
+            <a class="badge" href="{{ v.url }}">{{ v.name }}</a>
+          {% endfor %}
+        {% endif %}
+        {% if not f.is_linked %}
+          <span class="badge ok">Unlinked</span>
+        {% endif %}
+      </div>
+      {% if not f.is_linked %}
+      <div class="row" style="margin-top:8px; justify-content:flex-end; width:100%;">
+        <button
+          hx-post="{% url 'products:delete_media' %}"
+          hx-vals='{"path": "{{ f.rel }}"}'
+          hx-target="#media-grid" hx-swap="outerHTML"
+          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+          Delete
+        </button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+  <div class="muted">No media found under /media/.</div>
+{% endif %}
+</div>

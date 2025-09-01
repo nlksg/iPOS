@@ -1,0 +1,41 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;padding:16px;}
+    h1{font-size:20px;margin:0 0 12px}
+    .actions{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .card{border:1px solid #e5e7eb;border-radius:10px;padding:12px;background:#fff}
+  .thumb{height:140px;display:grid;place-items:center;overflow:hidden;background:#f8fafc;border-radius:8px;margin-bottom:8px}
+  .thumb img{max-height:100%;max-width:100%}
+    .muted{color:#64748b;font-size:13px}
+    .row{display:flex;justify-content:space-between;gap:8px}
+    .badge{display:inline-block;padding:2px 6px;border-radius:9999px;font-size:12px;background:#e0f2fe;color:#075985;text-decoration:none}
+  </style>
+</head>
+<body>
+  <h1>Products</h1>
+  <div class="grid">
+    {% for p in products %}
+      <div class="card">
+        {% with img=p.get_primary_image %}
+          {% if img and img.image %}
+            <div class="thumb"><img src="{{ img.image.url }}" alt="{{ p.name }}"></div>
+          {% endif %}
+        {% endwith %}
+        <div class="row"><strong>{{ p.name }}</strong><a class="badge" href="{% url 'products:product_edit' p.id %}">Edit</a></div>
+        <div class="muted" style="margin-top:6px;">SKU: {{ p.sku }}</div>
+        <div class="muted">Category: {{ p.category }}</div>
+        <div class="muted">Active: {{ p.is_active }}</div>
+      </div>
+    {% empty %}
+      <div class="muted">No products.</div>
+    {% endfor %}
+  </div>
+</body>
+</html>
