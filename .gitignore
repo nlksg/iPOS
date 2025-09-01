@@ -206,3 +206,8 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 db.sqlite3
+
+# Media uploads: ignore all generated files under media/, keep .gitkeep placeholders
+media/**
+!media/.gitkeep
+!media/**/.gitkeep
